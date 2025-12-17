@@ -315,7 +315,7 @@ const DrugInfoPage: React.FC = () => {
         {/* Search */}
         <form onSubmit={handleSearch} className="medical-card">
           <div className="space-y-3">
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
@@ -325,7 +325,7 @@ const DrugInfoPage: React.FC = () => {
                   className="pl-10"
                 />
               </div>
-              <div className="relative w-32">
+              <div className="relative w-full sm:w-32">
                 <Input
                   value={doseQuery}
                   onChange={(e) => setDoseQuery(e.target.value)}
@@ -334,11 +334,11 @@ const DrugInfoPage: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
               <p className="text-xs text-muted-foreground">
                 Enter medicine name and optional dose for detailed information
               </p>
-              <Button type="submit" disabled={isSearching}>
+              <Button type="submit" disabled={isSearching} className="w-full sm:w-auto">
                 {isSearching ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (

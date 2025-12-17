@@ -121,15 +121,16 @@ const InteractionsPage: React.FC = () => {
             </div>
           )}
 
-          {/* Add Drug */}
-          <div className="flex gap-2">
+        {/* Add Drug */}
+          <div className="flex flex-col sm:flex-row gap-2">
             <Input
               value={newDrug}
               onChange={(e) => setNewDrug(e.target.value)}
               placeholder="Add a drug to check interactions..."
               onKeyDown={(e) => e.key === 'Enter' && handleAddDrug()}
+              className="flex-1"
             />
-            <Button onClick={handleAddDrug} disabled={!newDrug.trim()}>
+            <Button onClick={handleAddDrug} disabled={!newDrug.trim()} className="w-full sm:w-auto">
               Add
             </Button>
           </div>

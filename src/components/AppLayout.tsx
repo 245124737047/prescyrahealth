@@ -12,9 +12,9 @@ const AppLayout: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex w-full">
       <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
-      <main className="flex-1 min-h-screen overflow-auto">
+      <main className="flex-1 min-h-screen overflow-x-hidden">
         <Outlet context={{ onMenuClick: () => setSidebarOpen(true) }} />
       </main>
     </div>

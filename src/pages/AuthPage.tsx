@@ -145,17 +145,17 @@ const AuthPage: React.FC = () => {
             <p className="text-lg text-primary-foreground/80 max-w-md">
               Safely manage your medications with dosage tracking, drug interactions alerts, and automated reminders.
             </p>
-            <div className="flex gap-4 pt-4">
+            <div className="flex flex-wrap gap-4 pt-4">
               <div className="flex items-center gap-2 text-sm text-primary-foreground/70">
-                <div className="w-2 h-2 rounded-full bg-success" />
+                <div className="w-2 h-2 rounded-full bg-success flex-shrink-0" />
                 <span>Drug Interactions</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-primary-foreground/70">
-                <div className="w-2 h-2 rounded-full bg-success" />
+                <div className="w-2 h-2 rounded-full bg-success flex-shrink-0" />
                 <span>Smart Reminders</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-primary-foreground/70">
-                <div className="w-2 h-2 rounded-full bg-success" />
+                <div className="w-2 h-2 rounded-full bg-success flex-shrink-0" />
                 <span>Multilingual</span>
               </div>
             </div>
