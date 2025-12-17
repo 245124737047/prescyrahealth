@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed lg:sticky top-0 left-0 z-50 h-screen w-64 bg-card border-r border-border transition-transform duration-300 flex flex-col',
+          'fixed lg:sticky top-0 left-0 z-50 min-h-screen max-h-screen w-64 bg-card border-r border-border transition-transform duration-300 flex flex-col overflow-y-auto',
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
       >

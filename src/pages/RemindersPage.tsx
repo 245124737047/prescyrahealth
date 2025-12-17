@@ -68,7 +68,7 @@ const RemindersPage: React.FC = () => {
     showActions?: boolean;
   }> = ({ reminder, showActions = true }) => (
     <div className={cn(
-      'flex items-center justify-between p-4 rounded-lg border transition-all',
+      'flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg border transition-all gap-3',
       reminder.status === 'taken' && 'bg-success/5 border-success/20',
       reminder.status === 'missed' && 'bg-destructive/5 border-destructive/20',
       reminder.status === 'upcoming' && 'bg-card border-border',
@@ -76,24 +76,24 @@ const RemindersPage: React.FC = () => {
     )}>
       <div className="flex items-center gap-4">
         <div className={cn(
-          'w-12 h-12 rounded-xl flex items-center justify-center',
+          'w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0',
           reminder.status === 'taken' && 'bg-success/10',
           reminder.status === 'missed' && 'bg-destructive/10',
           reminder.status === 'upcoming' && 'bg-primary/10',
           reminder.status === 'snoozed' && 'bg-warning/10'
         )}>
           {reminder.status === 'taken' ? (
-            <CheckCircle2 className="w-6 h-6 text-success" />
+            <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-success" />
           ) : reminder.status === 'missed' ? (
-            <XCircle className="w-6 h-6 text-destructive" />
+            <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-destructive" />
           ) : reminder.status === 'snoozed' ? (
-            <AlarmClock className="w-6 h-6 text-warning" />
+            <AlarmClock className="w-5 h-5 sm:w-6 sm:h-6 text-warning" />
           ) : (
-            <Clock className="w-6 h-6 text-primary" />
+            <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
           )}
         </div>
-        <div>
-          <p className="font-medium text-foreground">{reminder.medicationName}</p>
+        <div className="min-w-0">
+          <p className="font-medium text-foreground truncate">{reminder.medicationName}</p>
           <p className="text-sm text-muted-foreground">
             {reminder.dosage} • {reminder.scheduledTime}
           </p>
@@ -101,7 +101,7 @@ const RemindersPage: React.FC = () => {
       </div>
 
       {showActions && reminder.status === 'upcoming' && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 ml-14 sm:ml-0">
           <Button
             size="sm"
             variant="ghost"
@@ -116,7 +116,8 @@ const RemindersPage: React.FC = () => {
             className="bg-success hover:bg-success/90 text-success-foreground"
           >
             <CheckCircle2 className="w-4 h-4 mr-1" />
-            {t('markAsTaken')}
+            <span className="hidden xs:inline">{t('markAsTaken')}</span>
+            <span className="xs:hidden">Done</span>
           </Button>
         </div>
       )}
