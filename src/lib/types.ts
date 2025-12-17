@@ -35,11 +35,16 @@ export interface DrugInfo {
   name: string;
   genericName: string;
   brandNames: string[];
+  category?: string;
+  howItWorks?: string;
   usage: string;
+  dosageGuidance?: string;
+  contraindications?: string[];
   warnings: string[];
   precautions: string[];
   commonSideEffects: string[];
   seriousSideEffects: string[];
+  overdoseWarning?: string;
   isDemo: boolean;
 }
 

@@ -2,6 +2,36 @@ import { DrugInfo, DrugInteraction } from './types';
 
 export const demoMedicines: DrugInfo[] = [
   {
+    id: 'demo-0',
+    name: 'Dolo 650',
+    genericName: 'Paracetamol 650 mg',
+    brandNames: ['Dolo 650', 'Crocin 650', 'Calpol 650'],
+    category: 'Analgesic & Antipyretic',
+    howItWorks: 'Paracetamol works by inhibiting the synthesis of prostaglandins in the central nervous system (CNS). It raises the pain threshold and acts on the hypothalamic heat-regulating center to reduce fever. Unlike NSAIDs, it has minimal anti-inflammatory action.',
+    usage: 'Used for relief of mild to moderate pain including headache, toothache, muscle pain, and menstrual cramps. Also effective for reducing fever associated with common cold, flu, and other infections.',
+    dosageGuidance: 'Adults: 650 mg every 4-6 hours as needed. Maximum 4 grams (4000 mg) per day. Do not exceed recommended dose. For chronic pain, consult a physician.',
+    contraindications: [
+      'Severe liver impairment or active liver disease',
+      'Known hypersensitivity to paracetamol',
+      'Chronic alcoholism',
+      'Severe kidney impairment'
+    ],
+    warnings: [
+      'Do not exceed 4g/day to avoid liver damage',
+      'Avoid alcohol while taking this medication',
+      'Contains paracetamol - avoid other paracetamol-containing products'
+    ],
+    precautions: [
+      'Use with caution in patients with liver or kidney disease',
+      'Consult doctor before use if pregnant or breastfeeding',
+      'Keep out of reach of children - accidental overdose can be fatal'
+    ],
+    commonSideEffects: ['Nausea (rare)', 'Allergic skin reactions (rare)'],
+    seriousSideEffects: ['Liver damage (overdose)', 'Severe skin reactions (very rare)', 'Blood disorders (very rare)'],
+    overdoseWarning: 'CRITICAL: Paracetamol overdose can cause severe, potentially fatal liver damage. Symptoms may not appear for 24-48 hours. Seek immediate medical attention if overdose is suspected, even if feeling well.',
+    isDemo: true
+  },
+  {
     id: 'demo-1',
     name: 'Aspirin',
     genericName: 'Acetylsalicylic acid',

@@ -162,7 +162,7 @@ const AuthPage: React.FC = () => {
           </div>
           
           <div className="text-sm text-primary-foreground/60">
-            © 2024 Prescyra. All rights reserved.
+            © 2025 Prescyra. All rights reserved.
           </div>
         </div>
         
