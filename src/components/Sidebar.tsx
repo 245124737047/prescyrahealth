@@ -23,7 +23,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   const { t } = useLanguage();
-  const { logout, user } = useAuth();
+  const { logout, user, profile } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -111,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
           {user && (
             <div className="mb-3 px-4 py-2">
               <p className="text-sm font-medium text-foreground truncate">
-                {user.name}
+                {profile?.name || user.user_metadata?.name || 'User'}
               </p>
               <p className="text-xs text-muted-foreground truncate">
                 {user.email}

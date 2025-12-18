@@ -1,133 +1,156 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
-import { User, PatientProfile } from '@/lib/types';
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
+import { PatientProfile } from '@/lib/types';
 
 interface AuthContextType {
   user: User | null;
   profile: PatientProfile | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string) => Promise<boolean>;
-  logout: () => void;
-  updateProfile: (profile: Partial<PatientProfile>) => void;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  register: (name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
+  updateProfile: (profile: Partial<PatientProfile>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const defaultProfile: PatientProfile = {
-  userId: '',
-  name: '',
-  age: 0,
-  gender: 'other',
-  bloodType: '',
-  allergies: [],
-  medicalConditions: [],
-  emergencyContact: '',
-  phoneNumber: '',
-};
-
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<PatientProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchProfile = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle();
+    
+    if (data && !error) {
+      const patientProfile: PatientProfile = {
+        userId: data.user_id,
+        name: data.name || '',
+        age: data.age || 0,
+        gender: (data.gender as 'male' | 'female' | 'other') || 'other',
+        bloodType: data.blood_type || '',
+        allergies: data.allergies || [],
+        medicalConditions: data.medical_conditions || [],
+        emergencyContact: data.emergency_contact || '',
+        phoneNumber: data.phone_number || '',
+      };
+      setProfile(patientProfile);
+    }
+  };
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('prescyra-user');
-    const savedProfile = localStorage.getItem('prescyra-profile');
-    
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    if (savedProfile) {
-      setProfile(JSON.parse(savedProfile));
-    }
-  }, []);
-
-  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
-    // Simulated authentication
-    const users = JSON.parse(localStorage.getItem('prescyra-users') || '[]');
-    const foundUser = users.find((u: any) => u.email === email && u.password === password);
-    
-    if (foundUser) {
-      const loggedInUser: User = {
-        id: foundUser.id,
-        email: foundUser.email,
-        name: foundUser.name,
-      };
-      setUser(loggedInUser);
-      localStorage.setItem('prescyra-user', JSON.stringify(loggedInUser));
-      
-      const savedProfile = localStorage.getItem(`prescyra-profile-${foundUser.id}`);
-      if (savedProfile) {
-        const userProfile = JSON.parse(savedProfile);
-        setProfile(userProfile);
-        localStorage.setItem('prescyra-profile', JSON.stringify(userProfile));
-      } else {
-        const newProfile: PatientProfile = {
-          ...defaultProfile,
-          userId: foundUser.id,
-          name: foundUser.name,
-        };
-        setProfile(newProfile);
-        localStorage.setItem('prescyra-profile', JSON.stringify(newProfile));
-        localStorage.setItem(`prescyra-profile-${foundUser.id}`, JSON.stringify(newProfile));
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          // Defer profile fetch to avoid deadlock
+          setTimeout(() => {
+            fetchProfile(session.user.id);
+          }, 0);
+        } else {
+          setProfile(null);
+        }
+        setIsLoading(false);
       }
-      
-      return true;
-    }
-    return false;
+    );
+
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchProfile(session.user.id);
+      }
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const register = useCallback(async (name: string, email: string, password: string): Promise<boolean> => {
-    const users = JSON.parse(localStorage.getItem('prescyra-users') || '[]');
-    
-    if (users.some((u: any) => u.email === email)) {
-      return false;
-    }
-    
-    const newUser = {
-      id: `user-${Date.now()}`,
-      name,
+  const login = useCallback(async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
-    };
-    
-    users.push(newUser);
-    localStorage.setItem('prescyra-users', JSON.stringify(users));
-    
-    const loggedInUser: User = {
-      id: newUser.id,
-      email: newUser.email,
-      name: newUser.name,
-    };
-    setUser(loggedInUser);
-    localStorage.setItem('prescyra-user', JSON.stringify(loggedInUser));
-    
-    const newProfile: PatientProfile = {
-      ...defaultProfile,
-      userId: newUser.id,
-      name: newUser.name,
-    };
-    setProfile(newProfile);
-    localStorage.setItem('prescyra-profile', JSON.stringify(newProfile));
-    localStorage.setItem(`prescyra-profile-${newUser.id}`, JSON.stringify(newProfile));
-    
-    return true;
-  }, []);
+    });
 
-  const logout = useCallback(() => {
-    setUser(null);
-    setProfile(null);
-    localStorage.removeItem('prescyra-user');
-    localStorage.removeItem('prescyra-profile');
-  }, []);
-
-  const updateProfile = useCallback((updates: Partial<PatientProfile>) => {
-    if (profile && user) {
-      const updatedProfile = { ...profile, ...updates };
-      setProfile(updatedProfile);
-      localStorage.setItem('prescyra-profile', JSON.stringify(updatedProfile));
-      localStorage.setItem(`prescyra-profile-${user.id}`, JSON.stringify(updatedProfile));
+    if (error) {
+      return { success: false, error: error.message };
     }
-  }, [profile, user]);
+
+    return { success: true };
+  }, []);
+
+  const register = useCallback(async (name: string, email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    const redirectUrl = `${window.location.origin}/dashboard`;
+    
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: {
+          name,
+        },
+      },
+    });
+
+    if (error) {
+      if (error.message.includes('already registered')) {
+        return { success: false, error: 'An account with this email already exists. Please login instead.' };
+      }
+      return { success: false, error: error.message };
+    }
+
+    // Update the profile with the name
+    if (data.user) {
+      await supabase
+        .from('profiles')
+        .update({ name })
+        .eq('user_id', data.user.id);
+    }
+
+    return { success: true };
+  }, []);
+
+  const logout = useCallback(async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
+    setProfile(null);
+  }, []);
+
+  const updateProfile = useCallback(async (updates: Partial<PatientProfile>) => {
+    if (!user) return;
+
+    const dbUpdates: Record<string, unknown> = {};
+    if (updates.name !== undefined) dbUpdates.name = updates.name;
+    if (updates.age !== undefined) dbUpdates.age = updates.age;
+    if (updates.gender !== undefined) dbUpdates.gender = updates.gender;
+    if (updates.bloodType !== undefined) dbUpdates.blood_type = updates.bloodType;
+    if (updates.allergies !== undefined) dbUpdates.allergies = updates.allergies;
+    if (updates.medicalConditions !== undefined) dbUpdates.medical_conditions = updates.medicalConditions;
+    if (updates.emergencyContact !== undefined) dbUpdates.emergency_contact = updates.emergencyContact;
+    if (updates.phoneNumber !== undefined) dbUpdates.phone_number = updates.phoneNumber;
+
+    const { error } = await supabase
+      .from('profiles')
+      .update(dbUpdates)
+      .eq('user_id', user.id);
+
+    if (!error && profile) {
+      setProfile({ ...profile, ...updates });
+    }
+  }, [user, profile]);
 
   return (
     <AuthContext.Provider
@@ -135,6 +158,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         user,
         profile,
         isAuthenticated: !!user,
+        isLoading,
         login,
         register,
         logout,
