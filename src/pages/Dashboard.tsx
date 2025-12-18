@@ -21,7 +21,7 @@ import { cn } from '@/lib/utils';
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { medications, reminders, generateDailyReminders, markReminderAsTaken } = useMedication();
   const { onMenuClick } = useOutletContext<{ onMenuClick: () => void }>();
 
@@ -64,7 +64,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen">
       <Header
-        title={`${t('welcomeUser')}, ${user?.name?.split(' ')[0] || 'User'}`}
+        title={`${t('welcomeUser')}, ${profile?.name?.split(' ')[0] || 'User'}`}
         subtitle={t('dashboardSubtitle')}
         onMenuClick={onMenuClick}
       />

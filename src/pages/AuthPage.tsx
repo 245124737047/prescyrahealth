@@ -27,7 +27,7 @@ const registerSchema = z.object({
 
 const AuthPage: React.FC = () => {
   const { t } = useLanguage();
-  const { login, register, isAuthenticated } = useAuth();
+  const { login, register, isAuthenticated, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -60,10 +60,10 @@ const AuthPage: React.FC = () => {
 
     try {
       if (isLogin) {
-        const result = loginSchema.safeParse(formData);
-        if (!result.success) {
+        const validation = loginSchema.safeParse(formData);
+        if (!validation.success) {
           const fieldErrors: Record<string, string> = {};
-          result.error.errors.forEach(err => {
+          validation.error.errors.forEach(err => {
             if (err.path[0]) fieldErrors[err.path[0] as string] = err.message;
           });
           setErrors(fieldErrors);
@@ -71,8 +71,8 @@ const AuthPage: React.FC = () => {
           return;
         }
 
-        const success = await login(formData.email, formData.password);
-        if (success) {
+        const authResult = await login(formData.email, formData.password);
+        if (authResult.success) {
           toast({
             title: t('success'),
             description: t('welcomeBack'),
@@ -81,15 +81,15 @@ const AuthPage: React.FC = () => {
         } else {
           toast({
             title: t('error'),
-            description: 'Invalid email or password',
+            description: authResult.error || 'Invalid email or password',
             variant: 'destructive',
           });
         }
       } else {
-        const result = registerSchema.safeParse(formData);
-        if (!result.success) {
+        const validation = registerSchema.safeParse(formData);
+        if (!validation.success) {
           const fieldErrors: Record<string, string> = {};
-          result.error.errors.forEach(err => {
+          validation.error.errors.forEach(err => {
             if (err.path[0]) fieldErrors[err.path[0] as string] = err.message;
           });
           setErrors(fieldErrors);
@@ -97,8 +97,8 @@ const AuthPage: React.FC = () => {
           return;
         }
 
-        const success = await register(formData.name, formData.email, formData.password);
-        if (success) {
+        const authResult = await register(formData.name, formData.email, formData.password);
+        if (authResult.success) {
           toast({
             title: t('success'),
             description: 'Account created successfully',
@@ -107,7 +107,7 @@ const AuthPage: React.FC = () => {
         } else {
           toast({
             title: t('error'),
-            description: 'Email already registered',
+            description: authResult.error || 'Registration failed',
             variant: 'destructive',
           });
         }
