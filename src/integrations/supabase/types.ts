@@ -14,7 +14,176 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      medications: {
+        Row: {
+          created_at: string
+          dosage: string
+          duration: string | null
+          end_date: string | null
+          frequency: string
+          id: string
+          instructions: string | null
+          name: string
+          reminder_times: string[] | null
+          start_date: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dosage: string
+          duration?: string | null
+          end_date?: string | null
+          frequency: string
+          id?: string
+          instructions?: string | null
+          name: string
+          reminder_times?: string[] | null
+          start_date: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dosage?: string
+          duration?: string | null
+          end_date?: string | null
+          frequency?: string
+          id?: string
+          instructions?: string | null
+          name?: string
+          reminder_times?: string[] | null
+          start_date?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notification_settings: {
+        Row: {
+          app: boolean
+          created_at: string
+          email: boolean
+          id: string
+          sms: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          app?: boolean
+          created_at?: string
+          email?: boolean
+          id?: string
+          sms?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          app?: boolean
+          created_at?: string
+          email?: boolean
+          id?: string
+          sms?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          age: number | null
+          allergies: string[] | null
+          blood_type: string | null
+          created_at: string
+          emergency_contact: string | null
+          gender: string | null
+          id: string
+          medical_conditions: string[] | null
+          name: string
+          phone_number: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          allergies?: string[] | null
+          blood_type?: string | null
+          created_at?: string
+          emergency_contact?: string | null
+          gender?: string | null
+          id?: string
+          medical_conditions?: string[] | null
+          name?: string
+          phone_number?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          allergies?: string[] | null
+          blood_type?: string | null
+          created_at?: string
+          emergency_contact?: string | null
+          gender?: string | null
+          id?: string
+          medical_conditions?: string[] | null
+          name?: string
+          phone_number?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reminders: {
+        Row: {
+          created_at: string
+          date: string
+          dosage: string
+          id: string
+          medication_id: string | null
+          medication_name: string
+          scheduled_time: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          dosage: string
+          id?: string
+          medication_id?: string | null
+          medication_name: string
+          scheduled_time: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          dosage?: string
+          id?: string
+          medication_id?: string | null
+          medication_name?: string
+          scheduled_time?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
