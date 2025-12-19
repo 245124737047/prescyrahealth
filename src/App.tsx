@@ -14,6 +14,7 @@ import DrugInfoPage from "./pages/DrugInfoPage";
 import InteractionsPage from "./pages/InteractionsPage";
 import RemindersPage from "./pages/RemindersPage";
 import ProfilePage from "./pages/ProfilePage";
+import DemoProfilesPage from "./pages/DemoProfilesPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
                   <Route path="/interactions" element={<InteractionsPage />} />
                   <Route path="/reminders" element={<RemindersPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/demo-profiles" element={<DemoProfilesPage />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
