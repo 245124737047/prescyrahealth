@@ -10,11 +10,13 @@ import {
   Bell,
   User,
   LogOut,
-  Menu,
   X,
+  Users,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import PrescyraLogo from './PrescyraLogo';
+import ThemeToggle from './ThemeToggle';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -34,6 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
     { path: '/interactions', icon: AlertTriangle, label: 'interactions' },
     { path: '/reminders', icon: Bell, label: 'reminders' },
     { path: '/profile', icon: User, label: 'profile' },
+    { path: '/demo-profiles', icon: Users, label: 'demoProfiles' },
   ];
 
   const handleLogout = () => {
@@ -61,26 +64,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
         {/* Logo */}
         <div className="p-6 border-b border-border">
           <div className="flex items-center justify-between">
-            <Link to="/dashboard" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                <Pill className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="font-heading text-xl font-bold text-foreground">
-                  {t('appName')}
-                </h1>
-                <p className="text-xs text-muted-foreground">{t('tagline')}</p>
-              </div>
+            <Link to="/dashboard" className="flex items-center">
+              <PrescyraLogo size="md" />
             </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden"
-              onClick={onToggle}
-            >
-              <X className="h-5 w-5" />
-            </Button>
+            <div className="flex items-center gap-1">
+              <ThemeToggle />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="lg:hidden"
+                onClick={onToggle}
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
+          <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-secondary mt-3 rounded-full" />
         </div>
 
         {/* Navigation */}

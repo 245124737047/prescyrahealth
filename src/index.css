@@ -10,7 +10,8 @@
 
 @layer base {
   :root {
-    --background: 210 33% 98%;
+    /* Light theme - #EAF4FF inspired soft blue background */
+    --background: 213 70% 96%;
     --foreground: 215 25% 15%;
 
     --card: 0 0% 100%;
@@ -19,55 +20,115 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 27 95.9799% 60.9804%;
+    --primary: 195 85% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 98.0392%;
+    --secondary: 168 50% 45%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 20% 94%;
+    --muted: 210 25% 92%;
     --muted-foreground: 215 15% 45%;
 
-    --accent: 168 35% 92%;
-    --accent-foreground: 168 45% 25%;
+    --accent: 168 40% 90%;
+    --accent-foreground: 168 50% 25%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 65% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --warning: 38 92% 50%;
+    --warning: 38 85% 52%;
     --warning-foreground: 38 92% 15%;
 
-    --success: 142 70% 45%;
+    --success: 155 60% 42%;
     --success-foreground: 0 0% 100%;
 
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
-    --ring: 210 85% 45%;
+    --border: 210 25% 88%;
+    --input: 210 25% 88%;
+    --ring: 195 85% 45%;
 
-    --radius: 0.625rem;
+    --radius: 0.75rem;
 
     /* Medical-specific tokens */
-    --medical-blue: 210 85% 45%;
-    --medical-blue-light: 210 85% 95%;
-    --medical-green: 168 45% 45%;
+    --medical-blue: 195 85% 45%;
+    --medical-blue-light: 195 70% 94%;
+    --medical-green: 168 50% 42%;
     --medical-green-light: 168 45% 92%;
-    --alert-mild: 142 70% 45%;
-    --alert-moderate: 38 92% 50%;
-    --alert-severe: 0 72% 51%;
+    --alert-mild: 155 60% 42%;
+    --alert-moderate: 38 85% 52%;
+    --alert-severe: 0 65% 55%;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(215 25% 15% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(215 25% 15% / 0.08), 0 2px 4px -2px hsl(215 25% 15% / 0.06);
-    --shadow-lg: 0 10px 15px -3px hsl(215 25% 15% / 0.1), 0 4px 6px -4px hsl(215 25% 15% / 0.08);
+    /* Shadows - softer for calm aesthetic */
+    --shadow-sm: 0 1px 3px 0 hsl(215 25% 15% / 0.04);
+    --shadow-md: 0 4px 8px -2px hsl(215 25% 15% / 0.06), 0 2px 4px -2px hsl(215 25% 15% / 0.04);
+    --shadow-lg: 0 12px 24px -4px hsl(215 25% 15% / 0.08), 0 4px 8px -4px hsl(215 25% 15% / 0.06);
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 215 25% 15%;
-    --sidebar-primary: 210 85% 45%;
+    --sidebar-primary: 195 85% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 20% 94%;
+    --sidebar-accent: 195 50% 94%;
     --sidebar-accent-foreground: 215 25% 15%;
-    --sidebar-border: 210 20% 88%;
-    --sidebar-ring: 210 85% 45%;
+    --sidebar-border: 210 25% 90%;
+    --sidebar-ring: 195 85% 45%;
+  }
+
+  .dark {
+    /* Dark theme - #0B1220 inspired deep blue background */
+    --background: 220 45% 8%;
+    --foreground: 210 20% 92%;
+
+    --card: 220 40% 12%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 220 40% 12%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 195 85% 50%;
+    --primary-foreground: 220 45% 8%;
+
+    --secondary: 168 55% 45%;
+    --secondary-foreground: 220 45% 8%;
+
+    --muted: 220 30% 18%;
+    --muted-foreground: 210 15% 55%;
+
+    --accent: 195 40% 20%;
+    --accent-foreground: 195 70% 75%;
+
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --warning: 38 80% 50%;
+    --warning-foreground: 38 92% 15%;
+
+    --success: 155 55% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 220 30% 20%;
+    --input: 220 30% 20%;
+    --ring: 195 85% 50%;
+
+    /* Medical-specific tokens - dark mode */
+    --medical-blue: 195 85% 50%;
+    --medical-blue-light: 195 50% 20%;
+    --medical-green: 168 55% 45%;
+    --medical-green-light: 168 40% 18%;
+    --alert-mild: 155 55% 45%;
+    --alert-moderate: 38 80% 50%;
+    --alert-severe: 0 60% 50%;
+
+    /* Shadows - subtle for dark mode */
+    --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.2);
+    --shadow-md: 0 4px 8px -2px hsl(0 0% 0% / 0.3), 0 2px 4px -2px hsl(0 0% 0% / 0.2);
+    --shadow-lg: 0 12px 24px -4px hsl(0 0% 0% / 0.4), 0 4px 8px -4px hsl(0 0% 0% / 0.3);
+
+    --sidebar-background: 220 40% 10%;
+    --sidebar-foreground: 210 20% 92%;
+    --sidebar-primary: 195 85% 50%;
+    --sidebar-primary-foreground: 220 45% 8%;
+    --sidebar-accent: 220 35% 18%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 220 30% 18%;
+    --sidebar-ring: 195 85% 50%;
   }
 }
 
