@@ -7,9 +7,10 @@ interface HeaderProps {
   title: string;
   subtitle?: string;
   onMenuClick: () => void;
+  showBranding?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, subtitle, onMenuClick }) => {
+const Header: React.FC<HeaderProps> = ({ title, subtitle, onMenuClick, showBranding = false }) => {
   return (
     <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="flex items-center justify-between px-4 sm:px-6 py-4">
@@ -23,11 +24,24 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, onMenuClick }) => {
             <Menu className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="font-heading text-xl sm:text-2xl font-bold text-foreground">
-              {title}
-            </h1>
-            {subtitle && (
-              <p className="text-sm text-muted-foreground">{subtitle}</p>
+            {showBranding ? (
+              <>
+                <h1 className="font-heading text-3xl sm:text-4xl font-bold text-primary tracking-tight">
+                  Prescyra
+                </h1>
+                <p className="text-xs sm:text-sm text-muted-foreground/70 mt-0.5">
+                  {subtitle}
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 className="font-heading text-xl sm:text-2xl font-bold text-foreground">
+                  {title}
+                </h1>
+                {subtitle && (
+                  <p className="text-sm text-muted-foreground">{subtitle}</p>
+                )}
+              </>
             )}
           </div>
         </div>
