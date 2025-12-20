@@ -26,10 +26,10 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle, onMenuClick, showBrand
           <div>
             {showBranding ? (
               <>
-                <h1 className="font-heading text-3xl sm:text-4xl font-bold text-primary tracking-tight">
+                <h1 className="font-heading text-4xl sm:text-5xl font-bold text-primary tracking-tight">
                   Prescyra
                 </h1>
-                <p className="text-xs sm:text-sm text-muted-foreground/70 mt-0.5">
+                <p className="text-[10px] sm:text-xs text-muted-foreground/50 mt-0.5">
                   {subtitle}
                 </p>
               </>
