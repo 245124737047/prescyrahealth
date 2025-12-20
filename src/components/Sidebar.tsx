@@ -12,10 +12,10 @@ import {
   LogOut,
   X,
   Users,
+  MessageSquare,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import PrescyraLogo from './PrescyraLogo';
 import ThemeToggle from './ThemeToggle';
 
 interface SidebarProps {
@@ -37,6 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
     { path: '/reminders', icon: Bell, label: 'reminders' },
     { path: '/profile', icon: User, label: 'profile' },
     { path: '/demo-profiles', icon: Users, label: 'demoProfiles' },
+    { path: '/feedback', icon: MessageSquare, label: 'feedback' },
   ];
 
   const handleLogout = () => {
@@ -61,11 +62,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
       >
-        {/* Logo */}
+        {/* Branding */}
         <div className="p-6 border-b border-border">
           <div className="flex items-center justify-between">
             <Link to="/dashboard" className="flex items-center">
-              <PrescyraLogo size="md" />
+              <h1 className="font-heading text-2xl font-bold text-primary tracking-tight">
+                Prescyra
+              </h1>
             </Link>
             <div className="flex items-center gap-1">
               <ThemeToggle />
